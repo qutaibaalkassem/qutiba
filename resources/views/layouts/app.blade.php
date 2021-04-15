@@ -58,6 +58,10 @@
                                 </a>
 
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                                <a href="/user/{user}/edit" class="dropdown-item">الملف الشخصي</a>
+                                <a href="/user/posts" class="dropdown-item">المنشورات الشخصية</a>
+            
+
                                     <a class="dropdown-item" href="{{ route('logout') }}"
                                        onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
@@ -80,4 +84,5 @@
         </main>
     </div>
 </body>
+
 </html>

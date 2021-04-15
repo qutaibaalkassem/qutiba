@@ -37,14 +37,34 @@
             <img class="card-img-top" src="{{asset('storage/'.$post->image_path)}}" alt="Card image cap">
             <div class="card-body">
               <p class="card-text" style="text-align: right;direction:  rtl;">{{$post->body}}</p>
+              @if(sizeof($userLike)==1)
+              <form action="{{ route('like.destroy', $post->id)}}" method="POST">
+              @csrf
+              @method('DELETE')
+              <div class="row">
+                      <div class="btn-group" style="margin-top:  4px;">
+                        <button class="btn btn-sm btn-outline-secondary" type="button" ><i class="fa fa-heart" style="margin-right:  10%;"></i><label id="count_id">{{$count}}</label></button> 
+                        <button class="btn btn-sm btn-outline-secondary" id="btn_value_id"> إلغاء الإعجاب </button>
+                      </div>
+                  </div>
+
+              </form>
+
+
+              @else
               <div class="d-flex justify-content-between align-items-center">
-                <div class="row">
-                    <div class="btn-group" style="margin-top:  4px;">
-                      <button class="btn btn-sm btn-outline-secondary" type="button" ><i class="fa fa-heart" style="margin-right:  10%;"></i><label id="count_id">0</label></button> 
-                      <button class="btn btn-sm btn-outline-secondary" id="btn_value_id"> أعجبني </button>
-                    </div>
-                </div>
-                <small class="text-muted"></small>
+                <form method="POST" action="{{url('like')}}">
+                  @csrf
+                  <input type="hidden" name="post_id" value="{{$post->id}}">
+                  <div class="row">
+                      <div class="btn-group" style="margin-top:  4px;">
+                        <button class="btn btn-sm btn-outline-secondary" type="button" ><i class="fa fa-heart" style="margin-right:  10%;"></i><label id="count_id">{{$count}}</label></button> 
+                        <button class="btn btn-sm btn-outline-secondary" id="btn_value_id"> أعجبني </button>
+                      </div>
+                  </div>
+                  <small class="text-muted"></small>
+                </form>
+                @endif
               </div>
             </div>
             <div class="card-footer" style="direction:  rtl;text-align:  right;">

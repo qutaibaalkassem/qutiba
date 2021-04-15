@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\LikeController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\UserController;
 use App\Models\User;
@@ -27,10 +28,11 @@ Route::group(['middleware' =>['auth']] , function(){
     Route::get('/', function () {
         return view('welcome');
     });
-
+    Route::get('user/posts',[PostController::class, 'userPosts']);
     Route::resource('user',UserController::class);
     Route::resource('post',PostController::class);
-    Route::get('user/posts',[PostController::class, 'userPosts']);
+    Route::resource('like',LikeController::class);
+    
 
 
 

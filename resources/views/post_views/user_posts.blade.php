@@ -24,7 +24,7 @@
               <img class="card-img-top" src="{{asset('storage/'.$post->image_path)}}" alt="Card image cap" style="height: 250px">
               <div class="card-body" style="height:  116px;">
                 <!-- post body -->
-                <p class="card-text" style="text-align: right;direction:  rtl;">{{$post->body}}</p>
+                <p class="card-text" style="text-align: right;direction:  rtl;">{{Str::limit($post->body,80)}}</p>
                 <br>
               </div>
               <div class="card-footer">
@@ -52,6 +52,6 @@
       </div>
     </div>
   </body>
-  @endsection
+@endsection
 
 </html>

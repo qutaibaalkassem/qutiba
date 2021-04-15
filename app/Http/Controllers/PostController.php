@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Like;
 use App\Models\Post;
 use Illuminate\Http\Request;
 
@@ -64,7 +65,9 @@ class PostController extends Controller
     public function show($id)
     {
         $post= Post::with('user')->find($id);
-        return view('post_views/post_view',compact('post'));
+        $count=Like::where('post_id',$id)->count();
+        $userLike=Like::where(['user_id'=>auth()->user()->id , 'post_id'=>$id])->get();
+        return view('post_views/post_view',compact('post','count','userLike'));
     }
 
     /**
