@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\PostController;
 use App\Http\Controllers\UserController;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
@@ -28,6 +29,10 @@ Route::group(['middleware' =>['auth']] , function(){
     });
 
     Route::resource('user',UserController::class);
+    Route::resource('post',PostController::class);
+    Route::get('user/posts',[PostController::class, 'userPosts']);
+
+
 
 });
 

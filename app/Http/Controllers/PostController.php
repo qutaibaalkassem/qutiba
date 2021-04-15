@@ -2,10 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Post;
 use Illuminate\Http\Request;
 
 class PostController extends Controller
 {
+
+    public function userPosts(Request $request){
+
+        $posts=POST::where('user_id',auth()->user()->id)->get();
+        return view('post_views/user_posts',compact('posts'));
+    }
     /**
      * Display a listing of the resource.
      *
@@ -23,7 +30,7 @@ class PostController extends Controller
      */
     public function create()
     {
-        //
+        return view('post_views/new_post');
     }
 
     /**
@@ -34,7 +41,18 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        
+        if(request()->hasFile('image_path')){
+            $path = $request->file('image_path')->store('posts');
+           
+        }
+        $Post = new Post();
+        $Post -> body =$request->get('body');
+        $Post -> user_id= auth()->user()->id;
+        $Post -> image_path=$path;
+        $Post -> save();
+        return redirect('post/'.$Post->id);
+
     }
 
     /**
@@ -45,7 +63,8 @@ class PostController extends Controller
      */
     public function show($id)
     {
-        //
+        $post= Post::with('user')->find($id);
+        return view('post_views/post_view',compact('post'));
     }
 
     /**
@@ -56,7 +75,12 @@ class PostController extends Controller
      */
     public function edit($id)
     {
-        //
+        $post = Post::find($id);
+        if($post->user_id ==auth()->user()->id){
+            return view('post_views/edit_post', compact('post'));
+        }
+        else
+            return redirect('not_found');
     }
 
     /**
@@ -68,7 +92,15 @@ class PostController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $post = Post::find($id);
+        if($post->user_id == auth()->user()->id){
+            $post->body = $request->get('body');
+            $post->save();
+            return redirect('post/'.$post->id);
+        }
+        else{
+            return redirect('not_found');
+        }
     }
 
     /**
@@ -79,6 +111,13 @@ class PostController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $post = Post::find($id);
+        if($post->user_id == auth()->user()->id){
+            $post->delete();
+            return redirect('user/posts');
+        }
+        else{
+            return redirect('not_found');
+        }
     }
 }
