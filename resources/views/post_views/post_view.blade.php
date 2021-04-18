@@ -90,10 +90,20 @@
               </div>
                  @foreach($post_comment->comments as $comment)
                   <div class="media text-muted pt-3">
-                    <img src="{{asset('storage/'.$comment->user()->avatar)}}" alt="" class="col-sm-2 rounded" style="margin-top:  1%;margin-right: -3%; width: 50px;height: 50px;">
+                    <img src="{{asset('storage/'.$comment->user->avatar)}}" alt="" class="col-sm-2 rounded" style="margin-top:  1%;margin-right: -3%; width: 50px;height: 50px;">
                     <div class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray" >
                         <div class="d-flex justify-content-between align-items-center w-100">
                             <strong class="text-gray-dark">{{$comment->user->name}}</strong><br>
+
+                            @if($comment->user_id == auth()->user()->id)
+                              <form action="{{route('comment.destroy' , $comment->id)}}"  method="POST">
+                                @csrf
+                                @method('DELETE')
+                                <input type="submit" class="btn btn-outline-danger" value="حذف التعليق">
+                              </form>
+                            @endif
+
+
                         </div>
                         <span class="d-block">{{$comment->comment}}</span>
                     </div>
