@@ -3,13 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Follower;
-use App\Models\User;
-
-
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
 
-class UserController extends Controller
+class FollowController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -18,9 +14,8 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users=User::where('id','!=',auth()->user()->id)->get();
-        $requests=Follower::with('to_user')->where(["from_user"=>auth()->user()->id ,"accepted"=>0])->get();
-        return view('follow_view/users',compact('users','requests'));
+        $follow_requests=Follower::with('from_user')->where(["to_user_id" =>auth()->user()->id , "accepted"=>0])->get();
+        return view('follow_view/followers' ,compact('follow_requests'));
     }
 
     /**
@@ -41,7 +36,12 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $follower = new Follower();
+        $follower->to_user_id=$request->get('user_id');
+        $follower->from_user_id=auth()->user()->id;
+        $follower->accepted=0;
+        $follower->save();
+        return redirect('/user');
     }
 
     /**
@@ -61,10 +61,9 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit()
+    public function edit($id)
     {
-        $user=User::find(auth()->user()->id);
-        return view('user.profile',compact('user'));
+        //
     }
 
     /**
@@ -76,31 +75,10 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-         $userId = auth()->user()->id;
-            $data = request()->validate([
-                'name' => ['required' , 'min:3'],
-                'first_name' => ['required' , 'min:3'],
-                'last_name' => ['required' , 'min:3'],
-                'email' => ['required' , 'email'],
-                'password' => ['nullable' , 'confirmed' , 'min:8'],
-                'avatar' =>['mimes:jpeg,jpg,png']
-            ]);
-
-            if (request()->has('password')){
-                $data['password'] = Hash::make(request('password'));
-
-            }
-
-            if(request()->hasFile('avatar')){
-                $path = request('avatar')->store('users');
-                $data['avatar']=$path;
-
-            }
-
-            User::findOrFail($userId)->update($data);
-
-            return back();
-
+        $follow = Follower::find($id);
+        $follow->accepted=1;
+        $follow->save();
+        return redirect('user/follower');
     }
 
     /**
@@ -109,8 +87,14 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request ,$id)
     {
-        //
+        $follow = Follower::find($id);
+        $follow->delete();
+        $redirect_to = $request->get('redirect_to');
+        if(isset ($redirect_to))
+            return redirect($request->get('redirect_to'));
+        else
+           return redirect('user');
     }
 }

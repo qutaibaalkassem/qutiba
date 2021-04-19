@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CommentController;
+use App\Http\Controllers\FollowController;
 use App\Http\Controllers\LikeController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\UserController;
@@ -30,10 +31,12 @@ Route::group(['middleware' =>['auth']] , function(){
         return view('welcome');
     });
     Route::get('user/posts',[PostController::class, 'userPosts']);
+    Route::get('user/follower',[FollowController::class ,'index']);
     Route::resource('user',UserController::class);
     Route::resource('post',PostController::class);
     Route::resource('like',LikeController::class);
     Route::resource('comment',CommentController::class);
+    Route::resource('follow',FollowController::class);
     
 
 

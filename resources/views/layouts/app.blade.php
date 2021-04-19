@@ -60,12 +60,14 @@
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                                 <a href="/user/{user}/edit" class="dropdown-item">الملف الشخصي</a>
                                 <a href="/user/posts" class="dropdown-item">المنشورات الشخصية</a>
+                                <a href="/user" class="dropdown-item">المستخدمين</a>
+
             
 
                                     <a class="dropdown-item" href="{{ route('logout') }}"
                                        onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
-                                        {{ __('Logout') }}
+                                        {{ __('تسجيل الخروج') }}
                                     </a>
 
                                     <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
