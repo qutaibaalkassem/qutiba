@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Like;
 use App\Models\Post;
 use App\Models\Comment;
+use App\Models\Follower;
 use Illuminate\Http\Request;
 
 class PostController extends Controller
@@ -15,6 +16,17 @@ class PostController extends Controller
         $posts=POST::where('user_id',auth()->user()->id)->get();
         return view('post_views/user_posts',compact('posts'));
     }
+
+    public function userFriendPosts($id){
+        $is_follower = Follower::where(["from_user_id" =>auth()->user()->id , "to_user_id" =>$id , "accepted" => 1])->get();
+        if(isset($is_follower[0])){
+            $posts=Post::withCount('likes')->where(["user_id"=>$id])->get();
+            return view('post_views/friend_posts' , compact('posts'));
+        }
+        else
+            return redirect('home');
+
+    }
     /**
      * Display a listing of the resource.
      *
@@ -22,7 +34,12 @@ class PostController extends Controller
      */
     public function index()
     {
-        //
+        $posts = Post::withCount('likes')->
+                            whereIn('user_id' , auth()->user()->following()->where('accepted','=',1)
+                                ->pluck('to_user_id')
+                                )->get();
+
+        return view('home',compact('posts'));
     }
 
     /**

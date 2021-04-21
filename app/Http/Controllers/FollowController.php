@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Follower;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class FollowController extends Controller
@@ -15,7 +16,11 @@ class FollowController extends Controller
     public function index()
     {
         $follow_requests=Follower::with('from_user')->where(["to_user_id" =>auth()->user()->id , "accepted"=>0])->get();
-        return view('follow_view/followers' ,compact('follow_requests'));
+        $followers = Follower::with('to_user','from_user')->
+            where(['to_user_id'=>auth()->user()->id , 'accepted'=>1])->
+            orWhereRaw("from_user_id =? AND accepted =?" , [auth()->user()->id , 1])->
+            get();
+        return view('follow_view/followers' ,compact('follow_requests' , 'followers'));
     }
 
     /**

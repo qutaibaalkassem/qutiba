@@ -22,7 +22,7 @@
           <div class="card mb-8 box-shadow">             
             <div class="card-header" style="background-color:  white;">
                <div class="media text-muted pt-3" style="direction:  rtl;">
-                  <img src="{{asset('storage/'.auth()->user()->avatar)}}" alt="" class="col-sm-2 rounded" style="margin-right: -3%; width: 50px;height: 50px;">
+                  <img src="{{asset('storage/'.$post->user->avatar)}}" alt="" class="col-sm-2 rounded" style="margin-right: -3%; width: 50px;height: 50px;">
                   <div class="media-body pb-3 mb-0" style="text-align: right;direction:  rtl;" >
                     <p class="card-text" style="text-align: right;direction:  rtl;"></p>
                   </div>

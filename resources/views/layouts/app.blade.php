@@ -58,9 +58,12 @@
                                 </a>
 
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                                <a href="/home" class="dropdown-item">الصفحة الرئيسية</a>
                                 <a href="/user/{user}/edit" class="dropdown-item">الملف الشخصي</a>
                                 <a href="/user/posts" class="dropdown-item">المنشورات الشخصية</a>
                                 <a href="/user" class="dropdown-item">المستخدمين</a>
+                                <a href="/user/follower" class="dropdown-item">الأصدقاء وطلبات الصداقة</a>
+
 
             
 

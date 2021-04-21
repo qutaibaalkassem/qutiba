@@ -26,12 +26,12 @@ use Illuminate\Support\Facades\Route;
 
 Route::group(['middleware' =>['auth']] , function(){
 
-    Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-    Route::get('/', function () {
-        return view('welcome');
-    });
+    
+    
     Route::get('user/posts',[PostController::class, 'userPosts']);
+    Route::get('user/{id}/posts',[PostController::class, 'userFriendPosts']);
     Route::get('user/follower',[FollowController::class ,'index']);
+    Route::get('/home', [PostController::class, 'index']);
     Route::resource('user',UserController::class);
     Route::resource('post',PostController::class);
     Route::resource('like',LikeController::class);
