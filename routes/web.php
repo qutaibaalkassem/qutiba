@@ -27,7 +27,8 @@ use Illuminate\Support\Facades\Route;
 Route::group(['middleware' =>['auth']] , function(){
 
     
-    
+    //Route::get('user_info/{id}' ,[UserController::class , 'autocomplete']);
+    Route::get('search' ,[UserController::class , 'autocomplete']);
     Route::get('user/posts',[PostController::class, 'userPosts']);
     Route::get('user/{id}/posts',[PostController::class, 'userFriendPosts']);
     Route::get('user/follower',[FollowController::class ,'index']);

@@ -14,6 +14,15 @@ use Illuminate\Support\Facades\Hash;
 class UserController extends Controller
 {       
 
+    /*public function autocomplete(Request $request){
+            -- how to search --
+        $results=array();
+        $item = $request->searchname;
+        $data = User::where('first_name' , 'LIKE' ,'%'.$item.'%')->orWhere('last_name' , 'LIKE' ,'%'.$item.'%')
+                        ->take(5)->get();
+        return response()->json($data);
+    } */
+
         public function user_info(Request $request){
             $user = User::find($request['id']);
             $posts = Post::where(["user_id"=>$request['id']])->limit(3)->get();

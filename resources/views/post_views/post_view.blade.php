@@ -27,12 +27,14 @@
                     <p class="card-text" style="text-align: right;direction:  rtl;"></p>
                   </div>
                 </div>
+                @can('delete' , $post)
                 <form action="{{route('post.destroy',$post->id)}}" method="POST">
                     @csrf
                     @method('DELETE')
                     <button class="btn btn-sm btn-outline-secondary">حذف</button>
 
                 </form>
+                @endcan
             </div>  
             <img class="card-img-top" src="{{asset('storage/'.$post->image_path)}}" alt="Card image cap">
             <div class="card-body">
